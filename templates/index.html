@@ -1,0 +1,134 @@
+{% extends 'layouts/app.html'%}
+
+{% block content%}
+
+
+<div class="container">
+
+  <div class="row mt-4 justify-content-center mt-5">
+    <div class="col sm-8">
+
+      <!-- Navigation start here -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">My Todo App</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+
+            </ul>
+
+          </div>
+        </div>
+      </nav>
+      <!-- End Nav -->
+
+      <br>
+
+
+      <!-- Flashing Message -->
+
+      {% with messages = get_flashed_messages() %}
+
+      {% if messages %}
+
+      <ul class="alert alert-success">
+
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+
+      {% endif %}
+
+      {% endwith %}
+
+
+
+      <!-- Input Form and save button -->
+
+      <form action="{{ url_for('index',todo_id=todo.id) if todo else url_for('index')}}" method="POST">
+        <div class="input-group mb-3">
+
+          <input type="text" name="title" placeholder="Add Todo" class="form-control"
+            value="{{ todo.title if todo else ''}}" required>
+          <div class="input-group-append">
+            <button class="btn btn-info ml-2" type="submit">Save</button>
+
+          </div>
+        </div>
+      </form><br>
+
+
+      </div>
+
+      <!-- Todo table list Here -->
+
+      <h3 class="text-muted">Todo List Here </h3>
+
+
+      <table class="table">
+        <thead>
+
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Operation</th>
+          </tr>
+
+
+
+        </thead>
+        <tbody>
+
+
+
+          <!--  Show the data in table -->
+
+          {% for todo in todos %}
+
+
+          <tr>
+            <td scope="row">{{loop.index}}</td>
+            <td scope="row">{{todo.title}}</td>
+
+
+
+              <!--  Edit and delete operation -->
+              <td>
+                <a href="{{todo.id}}" type="button" class="btn btn-primary btn-sm mx-2">Edit</a>
+                <form class="delete col-4 btn-sm mx-2" method="POST" action="{{ url_for('delete',todo_id=todo.id)}}">
+                  <button type="submit" method="POST" class=" btn btn-danger btn-sm mx-2  ">Delete</button>
+              </td>
+
+          </tr>
+
+          {% endfor %}
+
+
+
+
+          <thead>
+          <tbody>
+
+
+
+
+
+
+
+    </div>
+
+  </div>
+
+
+</div>
+
+{% endblock %}
